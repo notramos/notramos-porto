@@ -55,7 +55,7 @@ export default function Home() {
           </li>
           <li className="bg-white shadow rounded p-4">
             <h3 className="text-xl font-bold">Project 3</h3>
-            <p className="text-black-600 mt-2">A description of your second project.</p>
+            <p className="text-black-600 mt-2">A description of your third project.</p>
           </li>
         </ul>
         
