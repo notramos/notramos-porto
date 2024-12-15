@@ -5,7 +5,7 @@ const AnimatedText: React.FC = () => {
     const roles = ["Web Developer", "Data Science", "FullStacks Engineer"]; // Daftar teks
     const [currentIndex, setCurrentIndex] = useState(0); // Indeks teks aktif
     const [isVisible, setIsVisible] = useState(true); // Kontrol visibilitas untuk animasi
-  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       const interval = setInterval(() => {
         // Animasi keluar (visibility off)
