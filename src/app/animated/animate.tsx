@@ -2,34 +2,41 @@
 import React, { useState, useEffect } from "react";
 
 const AnimatedText: React.FC = () => {
-    const roles = ["Web Developer", "Data Science", "FullStacks Engineer"]; // Daftar teks
-    const [currentIndex, setCurrentIndex] = useState(0); // Indeks teks aktif
-    const [isVisible, setIsVisible] = useState(true); // Kontrol visibilitas untuk animasi
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => {
-      const interval = setInterval(() => {
-        // Animasi keluar (visibility off)
-        setIsVisible(false);
-        setTimeout(() => {
-          // Ganti teks setelah animasi selesai
-          setCurrentIndex((prevIndex) => (prevIndex + 1) % roles.length);
-          setIsVisible(true); // Animasi masuk (visibility on)
-        }, 500); // Durasi animasi keluar
-      }, 3000); // Interval pergantian (3 detik)
-      return () => clearInterval(interval); // Bersihkan interval saat komponen unmount
-    }, []);
-  
-    return (
-      <p className="text-lg text-gray-600 mt-2">
-        <span
-          className={`transition-opacity duration-500 ${
-            isVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {roles[currentIndex]}
-        </span>
-      </p>
-    );
-  };
-  
-  export default AnimatedText;
+  const roles = ["Web Developer", "Data Scientist", "Full Stack Engineer", "Quality Assurance"]; // Daftar teks
+  const [currentIndex, setCurrentIndex] = useState(0); // Indeks teks aktif
+  const [displayedText, setDisplayedText] = useState(""); // Teks yang ditampilkan saat ini
+  const [isDeleting, setIsDeleting] = useState(false); // Status penghapusan teks
+
+  useEffect(() => {
+    const fullText = roles[currentIndex]; // Teks penuh dari indeks aktif
+    let typingSpeed = isDeleting ? 50 : 100; // Kecepatan ketikan (lebih cepat saat menghapus)
+
+    const handleTyping = () => {
+      if (!isDeleting && displayedText.length < fullText.length) {
+        // Menambahkan huruf satu per satu
+        setDisplayedText(fullText.slice(0, displayedText.length + 1));
+      } else if (isDeleting && displayedText.length > 0) {
+        // Menghapus huruf satu per satu
+        setDisplayedText(fullText.slice(0, displayedText.length - 1));
+      } else if (!isDeleting && displayedText.length === fullText.length) {
+        // Tunggu sebentar sebelum mulai menghapus
+        setTimeout(() => setIsDeleting(true), 1000);
+      } else if (isDeleting && displayedText.length === 0) {
+        // Beralih ke teks berikutnya setelah selesai menghapus
+        setIsDeleting(false);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % roles.length);
+      }
+    };
+
+    const typingTimeout = setTimeout(handleTyping, typingSpeed);
+    return () => clearTimeout(typingTimeout); // Bersihkan timeout saat komponen unmount
+  }, [displayedText, isDeleting, roles, currentIndex]);
+
+  return (
+    <p className="text-lg text-white mt-2">
+      <span className="border-r-2 font-bold text-aquamarine pr-1 animate-blink">{displayedText}</span>
+    </p>
+  );
+};
+
+export default AnimatedText;
