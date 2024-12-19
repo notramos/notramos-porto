@@ -2,6 +2,7 @@ import Image from "next/image";
 import '@/app/globals.css';
 import AnimatedText from "@/app/animated/animate";
 import DownloadCV from "./components/download_cv";
+import SkillsSection from "./components/skillsection";
 /* eslint-disable react/no-unescaped-entities */
 
 export default function Home() {
@@ -26,10 +27,10 @@ export default function Home() {
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">About Me</h2>
         <p className="text-white-700">
-          Iam a Student from AtmaJaya Yogyakarta
+          Iam a Student from AtmaJaya Yogyakarta and Iam Interested
         </p>
       </section>
-
+      <SkillsSection/>
       {/* Projects Section */}
       <section className="mb-10">
         <h2 className="text-2xl font-semibold mb-4">Projects</h2>
@@ -51,13 +52,13 @@ export default function Home() {
             <p className="text-black-600 mt-2">A description of your fourth project.</p>
           </li>
         </ul>
-        
+
       </section>
+
       {/* Contact Section */}
-     
       <section>
         <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-        <p className="text-gray-700">
+        <p className="text-white-">
           Feel free to reach out to me via email at  
           <a href="mailto:your-email@example.com" className="text-blue-500 underline">sergioguntur@gmail.com</a>.
           </p>
