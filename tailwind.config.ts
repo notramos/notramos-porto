@@ -11,7 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        aquamarine: '#7FFFD4',
+        aquamarine: "#7FFFD4",
+      },
+      fontFamily: {
+        orbitron: ["Orbitron", "sans-serif"],
       },
     },
   },

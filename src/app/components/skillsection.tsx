@@ -16,7 +16,7 @@ const skills = [
 
 const SkillsSection: React.FC = () => {
   return (
-    <section className="py-4 px-2 bg-gray-700 rounded mb-2">
+    <section className="py-4 px-2 bg-gray-700 rounded mb-44">
       <div className="container mx-auto px-8 text-center mb-10">
         <h2 className="text-4xl font-bold text-pretty">My Skills</h2>
         <p className="text-l text-white p-4">
