@@ -1,6 +1,6 @@
 const Project = () => {
   return (
-    <section className="mb-10">
+    <section id="project" className="mb-10">
       <h2 className="text-4xl font-semibold mb-4 text-center">Projects</h2>
       <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <li

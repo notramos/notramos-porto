@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const AboutMe = () => {
   return (
-    <div>
-      <h2 className="text-center text-4xl font-bold p-5 font-shadow mb-10">
+    <div id="aboutme">
+      <h2 className="text-center text-4xl font-bold p-5 font-shadow mb-10 mt-32">
         ABOUT ME
       </h2>
       <section className="text-center mb-4 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 items-center justify-items-center">

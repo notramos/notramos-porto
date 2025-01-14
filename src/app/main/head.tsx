@@ -4,7 +4,7 @@ import React from "react";
 /* eslint-disable react/no-unescaped-entities */
 const Header = () => {
   return (
-    <header className="text-center mb-44 mt-32 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center justify-items-center">
+    <header className="text-center mb-44 mt-28 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center justify-items-center">
       {/* Gambar Profil */}
       <Image
         src="/images/profile.jpg"

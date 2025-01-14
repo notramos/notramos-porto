@@ -16,7 +16,7 @@ export default function Home() {
         <Project />
 
         {/* Contact Section */}
-        <section>
+        <section id="contact">
           <h2 className="text-2xl font-semibold mb-4">Contact</h2>
           <p className="text-white-">
             Feel free to reach out to me via email at
