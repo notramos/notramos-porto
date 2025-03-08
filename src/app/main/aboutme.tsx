@@ -69,9 +69,7 @@ const AboutMe = () => {
             dan bekerja secara profesional di berbagai lingkungan kerja. Saya
             percaya bahwa dengan semangat belajar, tanggung jawab, dan kemampuan
             bekerja di bawah tekanan, saya dapat memberikan kontribusi terbaik
-            pada tim dan perusahaan. Lorem ipsum dolor sit amet consectetur,
-            adipisicing elit. Magnam, sunt quibusdam? Doloribus minus repellat
-            laudantium.
+            pada tim dan perusahaan.
           </p>
         </div>
       </section>
