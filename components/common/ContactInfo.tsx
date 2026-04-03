@@ -16,7 +16,7 @@ export function ContactInfo({ email, phone, location }: ContactInfoProps) {
       value: email,
       href: `mailto:${email}`,
       label: "Send Email",
-      color: "#ffdb33",
+      color: "var(--primary)",
     },
     {
       icon: Phone,
@@ -32,7 +32,7 @@ export function ContactInfo({ email, phone, location }: ContactInfoProps) {
       value: location,
       href: "https://maps.google.com",
       label: "View Map",
-      color: "#000000",
+      color: "var(--secondary)",
     },
   ];
 
@@ -41,30 +41,30 @@ export function ContactInfo({ email, phone, location }: ContactInfoProps) {
       {contactItems.map((item, idx) => (
         <Card
           key={idx}
-          className="border-2 border-black hover:shadow-2xl transition-all duration-300"
+          className="border-2 border-[var(--border-color)] hover:shadow-2xl transition-all duration-300"
         >
           <Card.Content className="p-6 text-center">
             <div className="flex justify-center mb-4">
               <div
-                className="w-16 h-16 border-2 border-black rounded-none flex items-center justify-center"
+                className="w-16 h-16 border-2 border-[var(--border-color)] rounded-none flex items-center justify-center"
                 style={{ backgroundColor: item.color }}
               >
                 <item.icon
                   className="h-8 w-8"
                   style={{
-                    color: item.color === "#000000" ? "#ffdb33" : "black",
+                    color: item.color === "var(--secondary)" ? "var(--primary)" : "black",
                   }}
                 />
               </div>
             </div>
-            <h3 className="text-2xl font-bold text-black mb-2">
+            <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
               {item.title}
             </h3>
-            <p className="text-gray-700 mb-3">{item.value}</p>
+            <p className="text-[var(--text-secondary)] mb-3">{item.value}</p>
             <Button
               asChild
               variant="outline"
-              className="border-2 border-black text-black hover:bg-[#ffdb33] hover:text-black font-bold w-full"
+              className="border-2 border-[var(--border-color)] text-[var(--text-primary)] hover:bg-[var(--primary)] hover:text-black font-bold w-full"
             >
               <a href={item.href} target="_blank" rel="noopener noreferrer">
                 <Send className="h-4 w-4 mr-2" />

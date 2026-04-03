@@ -1,5 +1,6 @@
 import { Archivo_Black, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "./config/site";
 
 const archivoBlack = Archivo_Black({
   subsets: ["latin"],
@@ -16,8 +17,8 @@ const space = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "Sergio | Portfolio",
-  description: "Fresh Graduate Information Systems - Software Developer",
+  title: siteConfig.title,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({

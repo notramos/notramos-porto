@@ -22,26 +22,34 @@
   --destructive: #e63946;
   --destructive-foreground: #fff;
   --border: #000;
+  --border-color: #000;
+  --text-primary: #000;
+  --text-secondary: #5a5a5a;
+  --text-muted: #888888;
 }
 
 .dark {
   --radius: 0;
-  --background: #1a1a1a;
-  --foreground: #f5f5f5;
-  --card: #242424;
-  --card-foreground: #f5f5f5;
+  --background: #0a0a0a;
+  --foreground: #f0f0f0;
+  --card: #171717;
+  --card-foreground: #f0f0f0;
   --primary: #ffdb33;
   --primary-hover: #ffcc00;
   --primary-foreground: #000;
-  --secondary: #3a3a3a;
-  --secondary-foreground: #f5f5f5;
-  --muted: #3f3f46;
+  --secondary: #262626;
+  --secondary-foreground: #f0f0f0;
+  --muted: #262626;
   --muted-foreground: #a0a0a0;
   --accent: #fae583;
   --accent-foreground: #000;
   --destructive: #e63946;
   --destructive-foreground: #fff;
-  --border: #3a3a3a;
+  --border: #404040;
+  --border-color: #404040;
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --text-muted: #6b6b6b;
 }
 /* csslint-enable */
 

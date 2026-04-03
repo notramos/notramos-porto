@@ -18,7 +18,7 @@ export function SkillsSection({
     <div>
       <div className="flex items-center gap-4 mb-8">
         <span className="text-4xl">{icon}</span>
-        <h4 className="text-3xl font-bold text-black border-b-2 border-black inline-block px-4">
+        <h4 className="text-3xl font-bold text-[var(--text-primary)] border-b-2 border-[var(--border-color)] inline-block px-4">
           {category}
         </h4>
       </div>
@@ -31,16 +31,16 @@ export function SkillsSection({
             >
               {skill.icon}
             </div>
-            <div className="text-xl font-bold text-black mb-2">
+            <div className="text-xl font-bold text-[var(--text-primary)] mb-2">
               {skill.name}
             </div>
-            <div className="h-2 bg-gray-200 rounded-none overflow-hidden">
+            <div className="h-2 bg-[var(--muted)] rounded-none overflow-hidden">
               <div
                 className="h-full transition-all duration-1000"
                 style={{ width: `${skill.level}%`, backgroundColor: color }}
               />
             </div>
-            <div className="text-sm font-bold text-black mt-2">
+            <div className="text-sm font-bold text-[var(--text-primary)] mt-2">
               {skill.level}%
             </div>
           </div>
