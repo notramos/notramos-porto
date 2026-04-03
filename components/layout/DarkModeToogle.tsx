@@ -30,12 +30,12 @@ export function DarkModeToggle() {
       variant="outline"
       size="icon"
       onClick={toggleDarkMode}
-      className="bg-transparent border-2 border-black dark:border-white hover:bg-[#ffdb33] dark:hover:bg-[#ffdb33] transition-all duration-300"
+      className="bg-transparent border-2 border-[var(--border-color)] hover:bg-[var(--primary)] dark:hover:bg-[var(--primary)] transition-all duration-300"
     >
       {darkMode ? (
-        <Sun className="h-5 w-5 text-black" />
+        <Sun className="h-5 w-5 text-[var(--text-primary)]" />
       ) : (
-        <Moon className="h-5 w-5 text-black dark:text-white" />
+        <Moon className="h-5 w-5 text-[var(--text-primary)]" />
       )}
       <span className="sr-only">Toggle dark mode</span>
     </Button>

@@ -24,17 +24,17 @@ export function SectionHeader({
         <div className="inline-block mb-6">
           <Badge
             variant="default"
-            className="bg-black text-[#ffdb33] border-2 border-black px-6 py-3 font-bold text-xl"
+            className="bg-[var(--secondary)] text-[var(--primary)] border-2 border-[var(--border-color)] px-6 py-3 font-bold text-xl"
           >
             {badge.icon && <span>{badge.icon}</span>} {badge.label}
           </Badge>
         </div>
       )}
-      <h2 className="text-5xl md:text-7xl font-head text-black mb-6 border-b-4 border-black inline-block px-8 py-3">
+      <h2 className="text-5xl md:text-7xl font-head text-[var(--text-primary)] mb-6 border-b-4 border-[var(--border-color)] inline-block px-8 py-3">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-xl text-gray-700 max-w-3xl mx-auto mt-4">
+        <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto mt-4">
           {subtitle}
         </p>
       )}
