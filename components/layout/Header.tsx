@@ -1,53 +1,44 @@
-"use client"
-
-import * as React from "react"
-import Link from "next/link"
-import { Button } from "@/components/retroui/Button"
-import { DarkModeToggle } from "@/components/layout/DarkModeToogle"
-import { MobileMenu } from "@/components/layout/MobileMenu"
-import { navigation } from "@/app/config/site"
-import { personalInfo } from "@/app/config/personal"
+import Link from "next/link";
+import { navigation } from "@/app/config/site";
+import { personalInfo } from "@/app/config/personal";
+import { DarkModeToggle } from "@/components/layout/DarkModeToogle";
+import { MobileMenu } from "@/components/layout/MobileMenu";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-[var(--card)] border-b-2 border-[var(--border-color)]">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link 
-            href="/" 
-            className="text-2xl font-head text-[var(--text-primary)] border-2 border-[var(--border-color)] px-3 py-1 hover:bg-[var(--primary)] hover:text-black transition-all duration-300"
-          >
-            {personalInfo.name.toUpperCase()}
-          </Link>
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex gap-2">
-            {navigation.map((item) => (
-              <Button 
-                key={item.href} 
-                asChild 
-                variant="ghost" 
-                className="text-[var(--text-primary)] font-bold border-none hover:bg-[var(--primary)] hover:text-black transition-all duration-300"
-              >
-                <Link href={item.href}>{item.label}</Link>
-              </Button>
-            ))}
-          </nav>
-          
-          {/* Header Actions */}
-          <div className="flex items-center gap-3">
-            <DarkModeToggle />
-            <Button 
-              asChild 
-              className="bg-[var(--primary)] text-black border-2 border-[var(--border-color)] hover:bg-[var(--primary-hover)] font-bold hidden md:inline-flex transition-all duration-300"
+    <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
+        <Link
+          href="/"
+          className="flex items-center gap-3 font-semibold tracking-tight"
+          aria-label={personalInfo.name + ", beranda"}
+        >
+          <span className="grid size-9 place-items-center border border-[var(--border)] bg-[var(--primary)] text-sm font-bold text-[var(--primary-foreground)]">
+            GS
+          </span>
+          <span className="hidden sm:inline">{personalInfo.name}</span>
+          <span className="sm:hidden">Gregorius Sergio</span>
+        </Link>
+
+        <nav aria-label="Navigasi utama" className="hidden items-center gap-7 md:flex">
+          {navigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-foreground"
             >
-              <Link href="#contact">Hire Me</Link>
-            </Button>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <DarkModeToggle />
+          <div className="md:hidden">
             <MobileMenu navItems={navigation} />
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }

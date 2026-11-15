@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/retroui/Button";
 import { Drawer } from "@/components/retroui/Drawer";
-import { DarkModeToggle } from "@/components/layout/DarkModeToogle";
 
 interface NavItem {
   label: string;
@@ -22,48 +22,32 @@ export function MobileMenu({ navItems }: MobileMenuProps) {
     <Drawer open={open} onOpenChange={setOpen}>
       <Drawer.Trigger asChild>
         <Button
+          type="button"
           variant="outline"
           size="icon"
-          className="md:hidden bg-transparent border-2 border-[var(--border-color)] hover:bg-[var(--primary)] transition-all duration-300 text-[var(--text-primary)]"
+          aria-label={open ? "Tutup menu" : "Buka menu"}
+          aria-expanded={open}
+          className="size-10 border border-[var(--border)] bg-[var(--surface)] text-foreground shadow-none"
         >
-          <span className="text-2xl">☰</span>
+          {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
         </Button>
       </Drawer.Trigger>
-      <Drawer.Content direction="right">
-        <Drawer.Header className="border-b-2 border-[var(--border-color)]">
-          <Drawer.Title className="font-head text-2xl text-[var(--text-primary)]">Menu</Drawer.Title>
+      <Drawer.Content direction="right" className="border-l border-[var(--border)] bg-[var(--background)] text-foreground">
+        <Drawer.Header className="border-b border-[var(--border)]">
+          <Drawer.Title className="font-semibold">Menu</Drawer.Title>
         </Drawer.Header>
-        <div className="p-4 flex flex-col gap-4">
+        <nav aria-label="Navigasi seluler" className="flex flex-col gap-1 p-4">
           {navItems.map((item) => (
-            <Button
+            <Link
               key={item.href}
-              asChild
-              variant="ghost"
-              className="justify-start text-lg font-bold border-none hover:bg-[var(--primary)] hover:text-black text-[var(--text-primary)]"
+              href={item.href}
               onClick={() => setOpen(false)}
+              className="border-b border-[var(--border)]/20 px-2 py-4 text-lg font-medium hover:text-[var(--accent)]"
             >
-              <Link href={item.href}>{item.label}</Link>
-            </Button>
+              {item.label}
+            </Link>
           ))}
-          <div className="pt-4 border-t-2 border-[var(--border-color)] flex items-center gap-3">
-            <DarkModeToggle />
-            <Button
-              asChild
-              className="flex-1 bg-[var(--primary)] text-black border-2 border-[var(--border-color)] hover:bg-[var(--primary-hover)] font-bold"
-              onClick={() => setOpen(false)}
-            >
-              <Link href="#contact">Hire Me</Link>
-            </Button>
-          </div>
-        </div>
-        <Drawer.Close asChild>
-          <Button
-            variant="outline"
-            className="absolute top-4 right-4 border-2 border-[var(--border-color)] text-[var(--text-primary)]"
-          >
-            ✕
-          </Button>
-        </Drawer.Close>
+        </nav>
       </Drawer.Content>
     </Drawer>
   );

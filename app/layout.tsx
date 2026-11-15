@@ -1,35 +1,36 @@
-import { Archivo_Black, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "./config/site";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
-const archivoBlack = Archivo_Black({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-head",
-  display: "swap",
-});
-
-const space = Space_Grotesk({
-  subsets: ["latin"],
-  weight: "400",
   variable: "--font-sans",
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    type: "website",
+    locale: "id_ID",
+  },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="id">
-      <body className={`${archivoBlack.variable} ${space.variable} font-sans`}>
-        {children}
+    <html lang="id" suppressHydrationWarning>
+      <body className={spaceGrotesk.variable}>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
