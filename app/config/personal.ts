@@ -3,6 +3,7 @@ export interface PersonalInfo {
   title: string;
   subtitle: string;
   availability: string;
+  location: string;
 }
 
 export interface ContactInfo {
@@ -18,20 +19,22 @@ export interface SocialLinks {
 }
 
 export const personalInfo: PersonalInfo = {
-  name: "Sergio",
-  title: "Software Developer",
-  subtitle: "Fresh Graduate Information Systems",
-  availability: "Available for Work",
-};
-
-export const contactInfo: ContactInfo = {
-  email: "sergio@example.com",
-  phone: "+6281234567890",
+  name: "Gregorius Sergio Guntur",
+  title: "Full stack developer",
+  subtitle:
+    "Saya membangun aplikasi web dan integrasi bisnis yang membantu pekerjaan berjalan lebih baik.",
+  availability: "Tersedia untuk peluang baru",
   location: "Jakarta, Indonesia",
 };
 
+export const contactInfo: ContactInfo = {
+  email: "",
+  phone: "",
+  location: personalInfo.location,
+};
+
 export const socialLinks: SocialLinks = {
-  github: "https://github.com/sergio",
-  linkedin: "https://linkedin.com/in/sergio",
-  twitter: "https://twitter.com/sergio",
+  github: "https://github.com/notramos",
+  linkedin: "https://linkedin.com/in/GregoriusSergio",
+  twitter: "",
 };

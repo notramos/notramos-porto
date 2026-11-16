@@ -1,222 +1,89 @@
-/* postcss-disable-next-line */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* csslint-disable */
 :root {
-  --radius: 0;
-  --background: #fff;
-  --foreground: #000;
-  --card: #fff;
-  --card-foreground: #000;
-  --primary: #ffdb33;
-  --primary-hover: #ffcc00;
-  --primary-foreground: #000;
-  --secondary: #000;
-  --secondary-foreground: #fff;
-  --muted: #aeaeae;
-  --muted-foreground: #5a5a5a;
-  --accent: #fae583;
-  --accent-foreground: #000;
-  --destructive: #e63946;
-  --destructive-foreground: #fff;
-  --border: #000;
-  --border-color: #000;
-  --text-primary: #000;
-  --text-secondary: #5a5a5a;
-  --text-muted: #888888;
+  color-scheme: light;
+  --background: #f4f0e6;
+  --foreground: #24231f;
+  --surface: #fcfaf4;
+  --surface-raised: #fffdf8;
+  --surface-muted: #e9e3d5;
+  --primary: #e4bd45;
+  --primary-foreground: #24231f;
+  --accent: #b9543e;
+  --muted-foreground: #68645c;
+  --border: #292820;
+  --focus: #9b412f;
 }
 
 .dark {
-  --radius: 0;
-  --background: #0a0a0a;
-  --foreground: #f0f0f0;
-  --card: #171717;
-  --card-foreground: #f0f0f0;
-  --primary: #ffdb33;
-  --primary-hover: #ffcc00;
-  --primary-foreground: #000;
-  --secondary: #262626;
-  --secondary-foreground: #f0f0f0;
-  --muted: #262626;
-  --muted-foreground: #a0a0a0;
-  --accent: #fae583;
-  --accent-foreground: #000;
-  --destructive: #e63946;
-  --destructive-foreground: #fff;
-  --border: #404040;
-  --border-color: #404040;
-  --text-primary: #f0f0f0;
-  --text-secondary: #a0a0a0;
-  --text-muted: #6b6b6b;
-}
-/* csslint-enable */
-
-/* Retro Grid Background */
-@layer base {
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-    position: relative;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Grid pattern */
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.05;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Scanlines overlay */
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 1px,
-      rgba(0, 0, 0, 0.02) 1px,
-      rgba(0, 0, 0, 0.02) 2px
-    );
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .dark body::after {
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 1px,
-      rgba(255, 255, 255, 0.01) 1px,
-      rgba(255, 255, 255, 0.01) 2px
-    );
-  }
+  color-scheme: dark;
+  --background: #1b1c19;
+  --foreground: #f2eee4;
+  --surface: #242520;
+  --surface-raised: #2b2c26;
+  --surface-muted: #34352e;
+  --primary: #e6c454;
+  --primary-foreground: #201f1b;
+  --accent: #e07a60;
+  --muted-foreground: #c0bbae;
+  --border: #d4cdbd;
+  --focus: #f0a28e;
 }
 
-@layer base {
-  * {
-    border-color: var(--border);
-  }
-
-  body {
-    background-color: var(--background);
-    color: var(--foreground);
-  }
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-head: var(--font-sans);
 }
 
-/* RetroUI Shadows */
-@layer utilities {
-  .shadow-xs {
-    box-shadow: 1px 1px 0 0 var(--border);
-  }
-  .shadow-sm {
-    box-shadow: 2px 2px 0 0 var(--border);
-  }
-  .shadow {
-    box-shadow: 3px 3px 0 0 var(--border);
-  }
-  .shadow-md {
-    box-shadow: 4px 4px 0 0 var(--border);
-  }
-  .shadow-lg {
-    box-shadow: 6px 6px 0 0 var(--border);
-  }
-  .shadow-xl {
-    box-shadow: 10px 10px 0 1px var(--border);
-  }
-  .shadow-2xl {
-    box-shadow: 16px 16px 0 1px var(--border);
-  }
+* {
+  box-sizing: border-box;
 }
 
-/* Custom Retro Animations */
-@keyframes glitch {
-  0% {
-    transform: translate(0);
-  }
-  20% {
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    transform: translate(-2px, -2px);
-  }
-  60% {
-    transform: translate(2px, 2px);
-  }
-  80% {
-    transform: translate(2px, -2px);
-  }
-  100% {
-    transform: translate(0);
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-.glitch {
-  animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Typography */
-@layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-head);
-  }
-
-  p,
-  a,
-  span,
-  li,
-  button {
-    font-family: var(--font-sans);
-  }
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
-/* RetroUI Button Styles - YELLOW THEME */
-/* postcss-disable */
-@layer components {
-  /* Default Yellow Button */
-  .btn-retro,
-  .button-retro {
-    @apply bg-[#ffdb33] text-[#000000] border-2 border-[#000000] font-bold rounded-none shadow-md hover:bg-[#ffcc00] hover:shadow-lg active:shadow-sm active:translate-x-1 active:translate-y-1 transition-all;
-  }
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
 
-  /* Outline Yellow Button */
-  .btn-retro-outline {
-    @apply bg-transparent text-[#ffdb33] border-2 border-[#ffdb33] font-bold rounded-none shadow-sm hover:bg-[#ffdb33] hover:text-[#000000] hover:shadow-md transition-all;
-  }
+a {
+  color: inherit;
+}
 
-  /* Black Button */
-  .btn-retro-black {
-    @apply bg-[#000000] text-[#ffffff] border-2 border-[#000000] font-bold rounded-none shadow-md hover:bg-[#333333] hover:shadow-lg active:shadow-sm active:translate-x-1 active:translate-y-1 transition-all;
-  }
+.paper-grid {
+  background-color: var(--surface-muted);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--border) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--border) 8%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
 
-  /* Red Destructive Button */
-  .btn-retro-destructive {
-    @apply bg-[#e63946] text-[#ffffff] border-2 border-[#000000] font-bold rounded-none shadow-md hover:bg-[#d62936] hover:shadow-lg active:shadow-sm active:translate-x-1 active:translate-y-1 transition-all;
-  }
-
-  /* Ghost Button */
-  .btn-retro-ghost {
-    @apply bg-transparent text-[#ffdb33] font-bold border-none hover:bg-[#ffdb33]/20 hover:shadow-xs transition-all;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
-/* postcss-enable */
