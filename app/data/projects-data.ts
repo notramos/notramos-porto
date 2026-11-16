@@ -9,6 +9,11 @@ export interface Project {
   features?: string[];
   github?: string;
   demo?: string;
+  featured?: boolean;
+  role?: string;
+  challenge?: string;
+  solution?: string;
+  impact?: string;
 }
 
 export const projects: Project[] = [
@@ -22,6 +27,14 @@ export const projects: Project[] = [
     client: "ERAMEDIA",
     features: ["Point of Sale", "Pemantauan stok", "Transaksi dan pembelian", "PDF"],
     github: "https://github.com/notramos/POS-ERAMEDIA",
+    featured: true,
+    role: "Full Stack Developer",
+    challenge:
+      "Menyatukan transaksi kasir, pencatatan stok, pembayaran, dan cetak struk dalam satu alur kerja.",
+    solution:
+      "Membangun sistem POS berbasis Laravel dengan pengelolaan transaksi, stok, QRIS, dan printer thermal.",
+    impact:
+      "Operasional kasir dan pencatatan toko dapat dijalankan melalui satu sistem yang lebih terpusat.",
   },
   {
     id: 2,

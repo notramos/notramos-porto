@@ -27,7 +27,7 @@ export function MobileMenu({ navItems }: MobileMenuProps) {
           size="icon"
           aria-label={open ? "Tutup menu" : "Buka menu"}
           aria-expanded={open}
-          className="size-10 border border-[var(--border)] bg-[var(--surface)] text-foreground shadow-none"
+          className="size-11 border border-[var(--border)] bg-[var(--surface)] text-foreground shadow-none"
         >
           {open ? <X aria-hidden="true" className="size-5" /> : <Menu aria-hidden="true" className="size-5" />}
         </Button>

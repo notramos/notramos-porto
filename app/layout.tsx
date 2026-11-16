@@ -2,13 +2,24 @@ import { Space_Grotesk } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "./config/site";
-import { ThemeProvider } from "@/components/layout/ThemeProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
+
+const themeScript = `
+  (() => {
+    try {
+      const storedTheme = localStorage.getItem("theme");
+      const dark = storedTheme
+        ? storedTheme === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", dark);
+    } catch {}
+  })();
+`;
 
 export const metadata: Metadata = {
   title: siteConfig.title,
@@ -29,9 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <body className={spaceGrotesk.variable}>
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className={spaceGrotesk.variable}>{children}</body>
     </html>
   );
 }

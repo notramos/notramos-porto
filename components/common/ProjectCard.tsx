@@ -8,7 +8,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
-    <article className="group flex h-full flex-col border border-[var(--border)] bg-[var(--surface)] transition-transform hover:-translate-y-1">
+    <article className="group flex h-full flex-col border border-[var(--border)] bg-[var(--surface)] transition-transform hover:-translate-y-1 focus-within:-translate-y-1">
       <div className="relative aspect-[16/9] overflow-hidden border-b border-[var(--border)] bg-[var(--surface-muted)]">
         {project.image ? (
           <Image
@@ -16,7 +16,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             alt={"Tampilan " + project.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.02] group-focus-within:scale-[1.02]"
           />
         ) : (
           <div className="paper-grid flex h-full items-end justify-between p-5 sm:p-7">
