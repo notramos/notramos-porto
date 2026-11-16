@@ -21,6 +21,8 @@ export function BackToTop() {
     <button
       type="button"
       onClick={scrollToTop}
+      tabIndex={visible ? 0 : -1}
+      aria-hidden={!visible}
       aria-label="Kembali ke bagian atas halaman"
       className={"fixed bottom-5 right-5 z-30 min-h-11 border border-[var(--border)] bg-[var(--primary)] px-4 text-sm font-semibold text-[var(--primary-foreground)] transition-[opacity,transform] active:translate-y-px " + (visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0")}
     >
