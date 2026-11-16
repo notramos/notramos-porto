@@ -15,7 +15,6 @@
   --muted-foreground: #68645c;
   --border: #292820;
   --focus: #9b412f;
-  --shadow-offset: 5px 5px 0 var(--border);
 }
 
 .dark {
@@ -31,12 +30,12 @@
   --muted-foreground: #c0bbae;
   --border: #d4cdbd;
   --focus: #f0a28e;
-  --shadow-offset: 5px 5px 0 var(--border);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-head: var(--font-sans);
 }
 
 * {

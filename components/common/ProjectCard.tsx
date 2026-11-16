@@ -21,7 +21,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         ) : (
           <div className="paper-grid flex h-full items-end justify-between p-5 sm:p-7">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted-foreground)]">Project file</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted-foreground)]">Arsip proyek</p>
               <p className="mt-2 max-w-[15ch] text-2xl font-semibold leading-tight tracking-[-0.04em] sm:text-3xl">{project.title}</p>
             </div>
             <span className="border border-[var(--border)] bg-[var(--primary)] px-3 py-2 text-sm font-semibold">
@@ -59,7 +59,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <div className="mt-auto flex flex-wrap gap-4 border-t border-[var(--border)]/25 pt-5">
             {project.github && (
               <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold underline decoration-[var(--accent)] underline-offset-4 hover:text-[var(--accent)]">
-                Source code <span aria-hidden="true">↗</span>
+                Kode sumber <span aria-hidden="true">↗</span>
               </a>
             )}
             {project.demo && (

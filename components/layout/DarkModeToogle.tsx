@@ -8,7 +8,13 @@ export function DarkModeToggle() {
   const [darkMode, setDarkMode] = React.useState(false);
 
   React.useEffect(() => {
-    setDarkMode(document.documentElement.classList.contains("dark"));
+    const storedTheme = window.localStorage.getItem("theme");
+    const shouldUseDark = storedTheme
+      ? storedTheme === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    document.documentElement.classList.toggle("dark", shouldUseDark);
+    setDarkMode(shouldUseDark);
   }, []);
 
   const toggleDarkMode = () => {
