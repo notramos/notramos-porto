@@ -1,8 +1,10 @@
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { Experience } from "@/components/sections/Experience";
+import { GitHubHistory } from "@/components/sections/GitHubHistory";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Project";
+import { SystemBlueprint } from "@/components/sections/SystemBlueprint";
 import { Header } from "@/components/layout/Header";
 import { AnimatedStatement } from "@/components/motion/AnimatedStatement";
 import { SiteMotion } from "@/components/motion/SiteMotion";
@@ -18,7 +20,9 @@ export default function Home() {
         <Hero />
         <AnimatedStatement />
         <Projects />
+        <GitHubHistory />
         <Experience />
+        <SystemBlueprint />
         <About />
         <Contact />
       </main>

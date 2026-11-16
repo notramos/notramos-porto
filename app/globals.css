@@ -497,3 +497,241 @@ nav a[aria-current="location"] {
     color: var(--foreground);
   }
 }
+
+
+/* GitHub history uses a restrained commit timeline so real activity remains the focus. */
+.github-history-list {
+  border-top: 1px solid var(--border);
+}
+
+.github-history-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) 1rem;
+  gap: 1.5rem;
+  align-items: start;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 35%, transparent);
+  padding-block: 1.5rem;
+}
+
+.github-history-index {
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.github-history-mark {
+  width: 0.75rem;
+  height: 0.75rem;
+  margin-top: 0.35rem;
+  border: 1px solid var(--border);
+  background: var(--primary);
+  transform: rotate(45deg);
+  transition: transform 500ms var(--motion-curve);
+}
+
+.github-history-row:hover .github-history-mark,
+.github-history-row:focus-within .github-history-mark {
+  transform: rotate(135deg) scale(1.15);
+}
+
+.github-history-skeleton > span,
+.github-history-skeleton > div > span {
+  display: block;
+  height: 0.75rem;
+  background: var(--surface-muted);
+  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
+}
+
+.github-history-skeleton > div > span:first-child {
+  width: 45%;
+  height: 1.25rem;
+}
+
+.github-history-skeleton > div > span:last-child {
+  width: 75%;
+  margin-top: 0.75rem;
+}
+
+.github-history-state {
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1.5rem;
+}
+
+.github-retry-button {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  transition:
+    transform 300ms var(--motion-curve),
+    background-color 300ms var(--motion-curve);
+}
+
+.github-retry-button:hover {
+  transform: translateY(-0.125rem);
+}
+
+.github-retry-button:active {
+  transform: scale(0.98);
+}
+
+/* Blueprint turns the full stack workflow into an interactive editorial schematic. */
+.blueprint-board {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 2rem;
+}
+
+.blueprint-track {
+  position: absolute;
+  top: 6.25rem;
+  right: 3.25rem;
+  left: 3.25rem;
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--border) 22%, transparent);
+}
+
+.blueprint-track span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--blueprint-progress));
+  transform-origin: left;
+  transition: transform 500ms var(--motion-curve);
+}
+
+.blueprint-nodes {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.blueprint-node {
+  display: flex;
+  min-height: 9rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 1rem;
+  text-align: left;
+  transition:
+    transform 500ms var(--motion-curve),
+    background-color 300ms var(--motion-curve),
+    color 300ms var(--motion-curve);
+}
+
+.blueprint-node:hover {
+  transform: translateY(-0.25rem);
+}
+
+.blueprint-node:active {
+  transform: scale(0.98);
+}
+
+.blueprint-node[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transform: translateY(-0.5rem);
+}
+
+.blueprint-node-index {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.blueprint-node[aria-pressed="true"] .blueprint-node-index {
+  color: currentColor;
+}
+
+.blueprint-node-short {
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.blueprint-node-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.blueprint-detail {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  animation: blueprint-detail-enter 500ms var(--motion-curve);
+}
+
+@keyframes skeleton-breathe {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
+}
+
+@keyframes blueprint-detail-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .github-history-row {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .github-history-mark {
+    display: none;
+  }
+
+  .blueprint-board {
+    padding: 1.5rem;
+  }
+
+  .blueprint-track {
+    display: none;
+  }
+
+  .blueprint-nodes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .blueprint-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .blueprint-node {
+    min-height: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .github-history-skeleton > span,
+  .github-history-skeleton > div > span {
+    animation: none;
+  }
+
+  .blueprint-detail {
+    animation: none;
+  }
+}

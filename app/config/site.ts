@@ -24,6 +24,7 @@ export const siteConfig: SiteConfig = {
 
 export const navigation: NavigationItem[] = [
   { label: "Proyek", href: "#projects" },
+  { label: "GitHub", href: "#github" },
   { label: "Pengalaman", href: "#experience" },
   { label: "Tentang", href: "#about" },
   { label: "Kontak", href: "#contact" },

@@ -21,7 +21,7 @@ export function Experience() {
       <div className="mx-auto max-w-6xl px-5">
         <div className="grid gap-10 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">02 / Pengalaman</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">03 / Pengalaman</p>
             <h2 className="text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">Cara saya bekerja</h2>
             <p className="mt-5 max-w-sm text-base leading-7 text-[var(--muted-foreground)]">
               Pengalaman teknis yang membentuk pendekatan saya: memahami masalah operasional, lalu menerjemahkannya menjadi solusi yang dapat dipakai.
