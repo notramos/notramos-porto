@@ -4,6 +4,8 @@ import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Project";
 import { Header } from "@/components/layout/Header";
+import { AnimatedStatement } from "@/components/motion/AnimatedStatement";
+import { SiteMotion } from "@/components/motion/SiteMotion";
 import { personalInfo, socialLinks } from "@/app/config/personal";
 
 export default function Home() {
@@ -11,8 +13,10 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground">
       <a href="#main-content" className="skip-link">Lewati ke konten</a>
       <Header />
+      <SiteMotion />
       <main id="main-content" tabIndex={-1}>
         <Hero />
+        <AnimatedStatement />
         <Projects />
         <Experience />
         <About />
