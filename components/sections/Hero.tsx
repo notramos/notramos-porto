@@ -31,10 +31,16 @@ export function Hero() {
               Hubungi saya
             </Link>
           </div>
-          <p className="mt-8 flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-            <MapPin aria-hidden="true" className="size-4" />
-            {personalInfo.location}
-          </p>
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--muted-foreground)]">
+            <p className="flex items-center gap-2">
+              <MapPin aria-hidden="true" className="size-4" />
+              {personalInfo.location}
+            </p>
+            <p className="flex items-center gap-2">
+              <span aria-hidden="true" className="size-2 rounded-full bg-[var(--accent)]" />
+              {personalInfo.availability}
+            </p>
+          </div>
         </div>
 
         <div className="relative mx-auto w-full max-w-md">
