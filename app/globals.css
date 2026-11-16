@@ -44,6 +44,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -67,6 +68,17 @@ body {
 
 a {
   color: inherit;
+}
+
+a[href],
+button,
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
 }
 
 .skip-link {
@@ -94,6 +106,26 @@ a {
   background-size: 22px 22px;
 }
 
+.reading-progress {
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.project-enter {
+  animation: project-enter 260ms ease-out both;
+}
+
+@keyframes project-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -102,5 +134,9 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .project-enter {
+    animation: none;
   }
 }

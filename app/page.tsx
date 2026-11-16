@@ -4,6 +4,7 @@ import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Project";
 import { Header } from "@/components/layout/Header";
+import { BackToTop } from "@/components/common/BackToTop";
 import { personalInfo, socialLinks } from "@/app/config/personal";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
           </a>
         </div>
       </footer>
+      <BackToTop />
     </div>
   );
 }
