@@ -34,10 +34,18 @@ const layers = [
 ];
 
 const pixelCells = Array.from({ length: 40 }, (_, index) => index);
+const gridColumns = 10;
+const gridRows = 7;
+const squareCells = Array.from({ length: gridColumns * gridRows }, (_, index) => ({
+  index,
+  column: index % gridColumns,
+  row: Math.floor(index / gridColumns),
+}));
 
 export function SystemBlueprint() {
   const [activeLayer, setActiveLayer] = React.useState(layers[1]);
   const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const [hoveredCell, setHoveredCell] = React.useState<{ column: number; row: number } | null>(null);
   const swapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const finishTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeIndex = layers.findIndex((layer) => layer.id === activeLayer.id);
@@ -47,6 +55,22 @@ export function SystemBlueprint() {
       if (swapTimer.current) clearTimeout(swapTimer.current);
       if (finishTimer.current) clearTimeout(finishTimer.current);
     };
+  }, []);
+
+  const handleGridPointer = React.useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const column = Math.min(
+      gridColumns - 1,
+      Math.max(0, Math.floor(((event.clientX - bounds.left) / bounds.width) * gridColumns)),
+    );
+    const row = Math.min(
+      gridRows - 1,
+      Math.max(0, Math.floor(((event.clientY - bounds.top) / bounds.height) * gridRows)),
+    );
+
+    setHoveredCell((current) =>
+      current?.column === column && current.row === row ? current : { column, row },
+    );
   }, []);
 
   const selectLayer = React.useCallback(
@@ -82,7 +106,26 @@ export function SystemBlueprint() {
             </p>
           </div>
 
-          <div className="blueprint-board">
+          <div
+            className="blueprint-board"
+            onPointerMove={handleGridPointer}
+            onPointerLeave={() => setHoveredCell(null)}
+          >
+            <div className="blueprint-square-grid" aria-hidden="true">
+              {squareCells.map((cell) => {
+                const distance = hoveredCell
+                  ? Math.hypot(cell.column - hoveredCell.column, cell.row - hoveredCell.row)
+                  : Number.POSITIVE_INFINITY;
+                const energy = Math.max(0, 1 - distance / 3.4);
+
+                return (
+                  <span
+                    key={cell.index}
+                    style={{ "--cell-energy": energy } as React.CSSProperties}
+                  />
+                );
+              })}
+            </div>
             <div className="blueprint-track" aria-hidden="true">
               <span style={{ "--blueprint-progress": activeIndex / (layers.length - 1) } as React.CSSProperties} />
             </div>
