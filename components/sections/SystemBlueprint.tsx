@@ -33,9 +33,38 @@ const layers = [
   },
 ];
 
+const pixelCells = Array.from({ length: 40 }, (_, index) => index);
+
 export function SystemBlueprint() {
   const [activeLayer, setActiveLayer] = React.useState(layers[1]);
+  const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const swapTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const finishTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const activeIndex = layers.findIndex((layer) => layer.id === activeLayer.id);
+
+  React.useEffect(() => {
+    return () => {
+      if (swapTimer.current) clearTimeout(swapTimer.current);
+      if (finishTimer.current) clearTimeout(finishTimer.current);
+    };
+  }, []);
+
+  const selectLayer = React.useCallback(
+    (nextLayer: (typeof layers)[number]) => {
+      if (nextLayer.id === activeLayer.id || isTransitioning) return;
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) {
+        setActiveLayer(nextLayer);
+        return;
+      }
+
+      setIsTransitioning(true);
+      swapTimer.current = setTimeout(() => setActiveLayer(nextLayer), 260);
+      finishTimer.current = setTimeout(() => setIsTransitioning(false), 620);
+    },
+    [activeLayer.id, isTransitioning],
+  );
 
   return (
     <section className="blueprint-section py-20 sm:py-24" aria-labelledby="blueprint-title">
@@ -66,9 +95,9 @@ export function SystemBlueprint() {
                     type="button"
                     className="blueprint-node"
                     aria-pressed={isActive}
-                    onClick={() => setActiveLayer(layer)}
-                    onFocus={() => setActiveLayer(layer)}
-                    onPointerEnter={() => setActiveLayer(layer)}
+                    onClick={() => selectLayer(layer)}
+                    onFocus={() => selectLayer(layer)}
+                    onPointerEnter={() => selectLayer(layer)}
                   >
                     <span className="blueprint-node-index">{layer.index}</span>
                     <span className="blueprint-node-short" aria-hidden="true">{layer.short}</span>
@@ -78,14 +107,28 @@ export function SystemBlueprint() {
               })}
             </div>
 
-            <div key={activeLayer.id} className="blueprint-detail" aria-live="polite">
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-                Lapisan aktif
-              </p>
-              <h3 className="mt-2 text-2xl font-semibold">{activeLayer.title}</h3>
-              <p className="mt-3 max-w-xl leading-7 text-[var(--muted-foreground)]">
-                {activeLayer.description}
-              </p>
+            <div className="blueprint-detail-shell">
+              <div
+                className="blueprint-pixel-transition"
+                data-active={isTransitioning}
+                aria-hidden="true"
+              >
+                {pixelCells.map((cell) => (
+                  <span
+                    key={cell}
+                    style={{ "--pixel-order": (cell * 7) % pixelCells.length } as React.CSSProperties}
+                  />
+                ))}
+              </div>
+              <div key={activeLayer.id} className="blueprint-detail" aria-live="polite">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+                  Lapisan aktif
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold">{activeLayer.title}</h3>
+                <p className="mt-3 max-w-xl leading-7 text-[var(--muted-foreground)]">
+                  {activeLayer.description}
+                </p>
+              </div>
             </div>
           </div>
         </div>
