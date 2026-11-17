@@ -4,146 +4,148 @@ import * as React from "react";
 
 const GITHUB_USERNAME = "notramos";
 const GITHUB_PROFILE = "https://github.com/notramos";
+const currentYear = new Date().getFullYear();
+const availableYears = Array.from({ length: 4 }, (_, index) => currentYear - index);
 
-interface GitHubEvent {
-  id: string;
-  type: string;
-  created_at: string;
-  repo: { name: string };
-  payload: {
-    action?: string;
-    ref?: string | null;
-    ref_type?: string;
-    commits?: Array<{ message: string }>;
-    pull_request?: { number: number };
-    issue?: { number: number };
-  };
-}
-
-interface ActivityItem {
-  id: string;
-  title: string;
-  detail: string;
-  repository: string;
+interface Contribution {
   date: string;
-  url: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
 }
 
-function isValidRepository(value: string) {
-  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(value);
+interface ContributionResponse {
+  total: Record<string, number>;
+  contributions: Contribution[];
 }
 
-function describeEvent(event: GitHubEvent): ActivityItem | null {
-  if (!isValidRepository(event.repo?.name) || !event.created_at) return null;
-
-  const repository = event.repo.name;
-  const url = "https://github.com/" + repository;
-  const date = new Intl.DateTimeFormat("id-ID", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(event.created_at));
-
-  if (event.type === "PushEvent") {
-    const commits = event.payload.commits ?? [];
-    const detail = commits[0]?.message?.split("\n")[0] || "Memperbarui kode pada repository";
-    return {
-      id: event.id,
-      title: "Mengirim " + commits.length + " commit",
-      detail,
-      repository,
-      date,
-      url,
-    };
-  }
-
-  if (event.type === "PullRequestEvent" && event.payload.pull_request) {
-    return {
-      id: event.id,
-      title: "Pull request #" + event.payload.pull_request.number,
-      detail: "Status: " + (event.payload.action || "diperbarui"),
-      repository,
-      date,
-      url,
-    };
-  }
-
-  if (event.type === "CreateEvent") {
-    return {
-      id: event.id,
-      title: "Membuat " + (event.payload.ref_type || "referensi"),
-      detail: event.payload.ref ? String(event.payload.ref) : "Repository baru",
-      repository,
-      date,
-      url,
-    };
-  }
-
-  if (event.type === "IssuesEvent" && event.payload.issue) {
-    return {
-      id: event.id,
-      title: "Issue #" + event.payload.issue.number,
-      detail: "Status: " + (event.payload.action || "diperbarui"),
-      repository,
-      date,
-      url,
-    };
-  }
-
-  return null;
+interface CalendarDay extends Contribution {
+  outsideRange?: boolean;
 }
 
-function HistorySkeleton() {
+interface CalendarWeek {
+  key: string;
+  days: CalendarDay[];
+}
+
+function toUtcDate(value: string) {
+  return new Date(value + "T00:00:00Z");
+}
+
+function toDateKey(value: Date) {
+  return value.toISOString().slice(0, 10);
+}
+
+function buildWeeks(contributions: Contribution[]): CalendarWeek[] {
+  if (contributions.length === 0) return [];
+
+  const contributionMap = new Map(contributions.map((day) => [day.date, day]));
+  const firstDate = toUtcDate(contributions[0].date);
+  const lastDate = toUtcDate(contributions[contributions.length - 1].date);
+  const calendarStart = new Date(firstDate);
+  calendarStart.setUTCDate(calendarStart.getUTCDate() - calendarStart.getUTCDay());
+  const calendarEnd = new Date(lastDate);
+  calendarEnd.setUTCDate(calendarEnd.getUTCDate() + (6 - calendarEnd.getUTCDay()));
+
+  const weeks: CalendarWeek[] = [];
+  const cursor = new Date(calendarStart);
+
+  while (cursor <= calendarEnd) {
+    const weekStart = new Date(cursor);
+    const days = Array.from({ length: 7 }, (_, dayIndex) => {
+      const date = new Date(weekStart);
+      date.setUTCDate(date.getUTCDate() + dayIndex);
+      const dateKey = toDateKey(date);
+      return contributionMap.get(dateKey) ?? {
+        date: dateKey,
+        count: 0,
+        level: 0,
+        outsideRange: date < firstDate || date > lastDate,
+      };
+    });
+
+    weeks.push({ key: toDateKey(weekStart), days });
+    cursor.setUTCDate(cursor.getUTCDate() + 7);
+  }
+
+  return weeks;
+}
+
+function monthLabels(weeks: CalendarWeek[]) {
+  let previousMonth = -1;
+  let previousLabelColumn = -4;
+
+  return weeks.map((week, index) => {
+    const labelDate = toUtcDate(week.days[3].date);
+    const month = labelDate.getUTCMonth();
+    const showLabel = month !== previousMonth && index - previousLabelColumn >= 3;
+
+    previousMonth = month;
+    if (showLabel) previousLabelColumn = index;
+
+    return showLabel
+      ? new Intl.DateTimeFormat("id-ID", { month: "short", timeZone: "UTC" }).format(labelDate)
+      : "";
+  });
+}
+
+function CalendarSkeleton() {
   return (
-    <div className="github-history-list" role="status" aria-label="Memuat aktivitas GitHub" aria-busy="true">
-      {Array.from({ length: 4 }).map((_, index) => (
-        <div key={index} className="github-history-row github-history-skeleton">
-          <span />
-          <div><span /><span /></div>
-          <span />
-        </div>
-      ))}
+    <div className="contribution-card contribution-skeleton" role="status" aria-label="Memuat kalender kontribusi" aria-busy="true">
+      <span className="contribution-skeleton-title" />
+      <div className="contribution-skeleton-grid">
+        {Array.from({ length: 196 }, (_, index) => <span key={index} />)}
+      </div>
     </div>
   );
 }
 
 export function GitHubHistory() {
-  const [activities, setActivities] = React.useState<ActivityItem[]>([]);
+  const [selectedYear, setSelectedYear] = React.useState(currentYear);
+  const [data, setData] = React.useState<ContributionResponse | null>(null);
   const [status, setStatus] = React.useState<"loading" | "ready" | "empty" | "error">("loading");
-
-  const loadActivity = React.useCallback(async (signal?: AbortSignal) => {
-    setStatus("loading");
-
-    try {
-      const response = await fetch(
-        "https://api.github.com/users/" + GITHUB_USERNAME + "/events/public?per_page=30",
-        {
-          signal,
-          headers: { Accept: "application/vnd.github+json" },
-        }
-      );
-
-      if (!response.ok) throw new Error("GitHub request failed");
-
-      const data = (await response.json()) as GitHubEvent[];
-      const nextActivities = data
-        .map(describeEvent)
-        .filter((item): item is ActivityItem => item !== null)
-        .slice(0, 6);
-
-      setActivities(nextActivities);
-      setStatus(nextActivities.length > 0 ? "ready" : "empty");
-    } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") return;
-      setStatus("error");
-    }
-  }, []);
 
   React.useEffect(() => {
     const controller = new AbortController();
-    loadActivity(controller.signal);
+
+    async function loadContributions() {
+      setStatus("loading");
+
+      try {
+        const response = await fetch(
+          "https://github-contributions-api.jogruber.de/v4/" +
+            GITHUB_USERNAME +
+            "?y=" +
+            selectedYear,
+          { signal: controller.signal },
+        );
+
+        if (!response.ok) throw new Error("Contribution request failed");
+
+        const result = (await response.json()) as ContributionResponse;
+        if (!Array.isArray(result.contributions)) throw new Error("Invalid contribution response");
+
+        setData(result);
+        setStatus(result.contributions.length > 0 ? "ready" : "empty");
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setData(null);
+        setStatus("error");
+      }
+    }
+
+    loadContributions();
     return () => controller.abort();
-  }, [loadActivity]);
+  }, [selectedYear]);
+
+  const weeks = React.useMemo(
+    () => buildWeeks(data?.contributions ?? []),
+    [data],
+  );
+  const labels = React.useMemo(() => monthLabels(weeks), [weeks]);
+  const total = data
+    ? data.total[String(selectedYear)] ??
+      data.contributions.reduce((sum, contribution) => sum + contribution.count, 0)
+    : 0;
 
   return (
     <section id="github" className="github-history-section scroll-mt-24 border-y border-[var(--border)] bg-[var(--surface)] py-20 sm:py-24">
@@ -151,76 +153,128 @@ export function GitHubHistory() {
         <div className="mb-10 grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">
-              02 / Aktivitas publik
+              02 / Kontribusi GitHub
             </p>
             <h2 className="max-w-lg text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">
               GitHub history
             </h2>
           </div>
           <p className="max-w-xl text-base leading-7 text-[var(--muted-foreground)]">
-            Aktivitas terbaru diambil langsung dari event publik GitHub. Riwayat ini dapat berubah mengikuti pekerjaan yang dipublikasikan.
+            Jejak kontribusi publik dalam format kalender. Arahkan kursor ke kotak untuk melihat jumlah kontribusi pada tanggal tersebut.
           </p>
         </div>
 
-        {status === "loading" && <HistorySkeleton />}
+        <div className="contribution-layout">
+          <div className="min-w-0">
+            {status === "loading" && <CalendarSkeleton />}
 
-        {status === "ready" && (
-          <ol className="github-history-list">
-            {activities.map((activity, index) => (
-              <li key={activity.id} className="github-history-row">
-                <span className="github-history-index">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h3 className="text-lg font-semibold">{activity.title}</h3>
-                    <time className="text-xs text-[var(--muted-foreground)]">{activity.date}</time>
-                  </div>
-                  <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{activity.detail}</p>
-                  <a
-                    href={activity.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold underline decoration-[var(--accent)] underline-offset-4"
-                  >
-                    {activity.repository}
-                    <span aria-hidden="true" className="ml-2">↗</span>
+            {status === "ready" && (
+              <div className="contribution-card">
+                <div className="contribution-card-header">
+                  <p className="text-lg font-semibold">
+                    {total.toLocaleString("id-ID")} kontribusi pada {selectedYear}
+                  </p>
+                  <a href={GITHUB_PROFILE} target="_blank" rel="noopener noreferrer" className="contribution-profile-link">
+                    Lihat profil <span aria-hidden="true">↗</span>
                   </a>
                 </div>
-                <span className="github-history-mark" aria-hidden="true" />
-              </li>
-            ))}
-          </ol>
-        )}
 
-        {status === "empty" && (
-          <div className="github-history-state">
-            <h3 className="text-lg font-semibold">Belum ada aktivitas publik terbaru</h3>
-            <p className="mt-2 text-[var(--muted-foreground)]">
-              Event publik GitHub hanya tersedia untuk periode terbaru.
-            </p>
-            <a href={GITHUB_PROFILE} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center font-semibold underline decoration-[var(--accent)] underline-offset-4">
-              Buka profil GitHub
-            </a>
+                <div className="contribution-scroll" tabIndex={0} aria-label={"Kalender kontribusi GitHub tahun " + selectedYear}>
+                  <div
+                    className="contribution-calendar"
+                    style={{ "--calendar-weeks": weeks.length } as React.CSSProperties}
+                  >
+                    <div className="contribution-months" aria-hidden="true">
+                      {labels.map((label, index) => <span key={weeks[index].key}>{label}</span>)}
+                    </div>
+
+                    <div className="contribution-calendar-body">
+                      <div className="contribution-weekdays" aria-hidden="true">
+                        <span />
+                        <span>Sen</span>
+                        <span />
+                        <span>Rab</span>
+                        <span />
+                        <span>Jum</span>
+                        <span />
+                      </div>
+
+                      <div className="contribution-weeks">
+                        {weeks.map((week) => (
+                          <div key={week.key} className="contribution-week">
+                            {week.days.map((day) => {
+                              const dateLabel = new Intl.DateTimeFormat("id-ID", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                                timeZone: "UTC",
+                              }).format(toUtcDate(day.date));
+                              const ariaLabel = day.count + " kontribusi pada " + dateLabel;
+
+                              return (
+                                <span
+                                  key={day.date}
+                                  className="contribution-day"
+                                  data-level={day.level}
+                                  data-outside={day.outsideRange || undefined}
+                                  title={ariaLabel}
+                                  aria-label={ariaLabel}
+                                  role="img"
+                                />
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="contribution-card-footer">
+                  <span>Lebih sedikit</span>
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <span key={level} className="contribution-day" data-level={level} aria-hidden="true" />
+                  ))}
+                  <span>Lebih banyak</span>
+                </div>
+              </div>
+            )}
+
+            {status === "empty" && (
+              <div className="github-history-state">
+                <h3 className="text-lg font-semibold">Belum ada kontribusi pada {selectedYear}</h3>
+                <p className="mt-2 text-[var(--muted-foreground)]">
+                  Pilih tahun lain atau buka profil GitHub untuk melihat aktivitas terbaru.
+                </p>
+              </div>
+            )}
+
+            {status === "error" && (
+              <div className="github-history-state" role="status">
+                <h3 className="text-lg font-semibold">Kalender kontribusi belum dapat dimuat</h3>
+                <p className="mt-2 text-[var(--muted-foreground)]">
+                  Sumber data publik sedang tidak tersedia. Profil GitHub tetap dapat dibuka secara langsung.
+                </p>
+                <a href={GITHUB_PROFILE} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 items-center font-semibold underline decoration-[var(--accent)] underline-offset-4">
+                  Buka profil GitHub
+                </a>
+              </div>
+            )}
           </div>
-        )}
 
-        {status === "error" && (
-          <div className="github-history-state" role="status">
-            <h3 className="text-lg font-semibold">Aktivitas GitHub belum dapat dimuat</h3>
-            <p className="mt-2 text-[var(--muted-foreground)]">
-              Batas permintaan GitHub mungkin sedang tercapai. Coba kembali atau buka profil secara langsung.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              <button type="button" onClick={() => loadActivity()} className="github-retry-button">
-                Coba kembali
+          <nav className="contribution-years" aria-label="Pilih tahun kontribusi">
+            {availableYears.map((year) => (
+              <button
+                key={year}
+                type="button"
+                aria-pressed={selectedYear === year}
+                onClick={() => setSelectedYear(year)}
+              >
+                {year}
               </button>
-              <a href={GITHUB_PROFILE} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center px-3 font-semibold underline decoration-[var(--accent)] underline-offset-4">
-                Buka profil
-              </a>
-            </div>
-          </div>
-        )}
+            ))}
+          </nav>
+        </div>
       </div>
     </section>
   );
