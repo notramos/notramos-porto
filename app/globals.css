@@ -497,3 +497,464 @@ nav a[aria-current="location"] {
     color: var(--foreground);
   }
 }
+
+
+/* GitHub history mirrors the familiar contribution calendar with real public data. */
+.contribution-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 7.5rem;
+  gap: 2rem;
+  align-items: start;
+}
+
+.contribution-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1.5rem;
+}
+
+.contribution-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contribution-profile-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.3rem;
+}
+
+.contribution-scroll {
+  overflow-x: auto;
+  padding: 0.25rem 0 0.75rem;
+  scrollbar-color: var(--muted-foreground) transparent;
+  scrollbar-width: thin;
+}
+
+.contribution-scroll:focus-visible {
+  outline-offset: 0.25rem;
+}
+
+.contribution-calendar {
+  width: max-content;
+  min-width: 100%;
+}
+
+.contribution-months {
+  display: grid;
+  width: max-content;
+  min-width: calc(var(--calendar-weeks) * 14px);
+  grid-template-columns: repeat(var(--calendar-weeks), 11px);
+  gap: 3px;
+  margin-left: 2.25rem;
+  margin-bottom: 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.contribution-months span {
+  min-width: 2rem;
+  white-space: nowrap;
+}
+
+.contribution-calendar-body {
+  display: flex;
+  width: max-content;
+  gap: 0.5rem;
+}
+
+.contribution-weekdays,
+.contribution-week {
+  display: grid;
+  grid-template-rows: repeat(7, 11px);
+  gap: 3px;
+}
+
+.contribution-weekdays {
+  width: 1.75rem;
+  flex: 0 0 1.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  line-height: 11px;
+  text-align: right;
+}
+
+.contribution-weeks {
+  display: flex;
+  gap: 3px;
+}
+
+.contribution-day {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border: 1px solid color-mix(in srgb, var(--border) 10%, transparent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--border) 8%, var(--surface-muted));
+  transition:
+    transform 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+.contribution-day[data-level="1"] {
+  background: #9be9a8;
+}
+
+.contribution-day[data-level="2"] {
+  background: #40c463;
+}
+
+.contribution-day[data-level="3"] {
+  background: #30a14e;
+}
+
+.contribution-day[data-level="4"] {
+  background: #216e39;
+}
+
+.contribution-day[data-outside="true"] {
+  visibility: hidden;
+}
+
+.contribution-weeks .contribution-day:hover {
+  z-index: 1;
+  border-color: var(--foreground);
+  transform: scale(1.45);
+}
+
+.contribution-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+
+.contribution-years {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.contribution-years button {
+  min-height: 44px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted-foreground);
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  transition:
+    transform 240ms var(--motion-curve),
+    color 180ms ease-out,
+    background-color 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+.contribution-years button:hover {
+  border-color: color-mix(in srgb, var(--border) 28%, transparent);
+  color: var(--foreground);
+  transform: translateX(0.2rem);
+}
+
+.contribution-years button[aria-pressed="true"] {
+  border-color: var(--border);
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.github-history-state {
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1.5rem;
+}
+
+.contribution-skeleton-title {
+  display: block;
+  width: min(18rem, 70%);
+  height: 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--surface-muted);
+  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
+}
+
+.contribution-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(28, 11px);
+  gap: 3px;
+  overflow: hidden;
+}
+
+.contribution-skeleton-grid span {
+  width: 11px;
+  height: 11px;
+  background: var(--surface-muted);
+  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
+  animation-delay: calc((var(--skeleton-order, 0)) * 10ms);
+}
+
+/* Blueprint turns the full stack workflow into an interactive editorial schematic. */
+.blueprint-board {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 2rem;
+}
+
+.blueprint-square-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.blueprint-square-grid span {
+  border-right: 1px solid color-mix(in srgb, var(--border) 11%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 11%, transparent);
+  background: var(--primary);
+  opacity: calc(0.045 + var(--cell-energy) * 0.42);
+  transform: scale(calc(0.88 + var(--cell-energy) * 0.12));
+  transition:
+    opacity 240ms ease-out,
+    transform 320ms var(--motion-curve);
+  will-change: opacity, transform;
+}
+
+.blueprint-track {
+  position: absolute;
+  z-index: 1;
+  top: 6.25rem;
+  right: 3.25rem;
+  left: 3.25rem;
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--border) 22%, transparent);
+}
+
+.blueprint-track span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--blueprint-progress));
+  transform-origin: left;
+  transition: transform 500ms var(--motion-curve);
+}
+
+.blueprint-nodes {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.blueprint-node {
+  display: flex;
+  min-height: 9rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 1rem;
+  text-align: left;
+  transition:
+    transform 500ms var(--motion-curve),
+    background-color 300ms var(--motion-curve),
+    color 300ms var(--motion-curve);
+}
+
+.blueprint-node:hover {
+  transform: translateY(-0.25rem);
+}
+
+.blueprint-node:active {
+  transform: scale(0.98);
+}
+
+.blueprint-node[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transform: translateY(-0.5rem);
+}
+
+.blueprint-node-index {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.blueprint-node[aria-pressed="true"] .blueprint-node-index {
+  color: currentColor;
+}
+
+.blueprint-node-short {
+  align-self: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.blueprint-node-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.blueprint-detail-shell {
+  position: relative;
+  z-index: 1;
+  min-height: 10.5rem;
+  margin-top: 2rem;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+}
+
+.blueprint-detail {
+  padding-top: 1.5rem;
+  animation: blueprint-detail-enter 500ms var(--motion-curve);
+}
+
+/* A restrained pixel dissolve, inspired by React Bits, masks the content swap. */
+.blueprint-pixel-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  pointer-events: none;
+}
+
+.blueprint-pixel-transition span {
+  background: var(--accent);
+  opacity: 0;
+}
+
+.blueprint-pixel-transition[data-active="true"] span {
+  animation: blueprint-pixel-swap 520ms var(--motion-curve) both;
+  animation-delay: calc(var(--pixel-order) * 4ms);
+}
+
+@keyframes blueprint-pixel-swap {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  38%,
+  58% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes skeleton-breathe {
+  from { opacity: 0.45; }
+  to { opacity: 1; }
+}
+
+@keyframes blueprint-detail-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 767px) {
+  .contribution-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contribution-years {
+    grid-row: 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .contribution-years button {
+    padding-inline: 0.5rem;
+    text-align: center;
+  }
+
+  .contribution-years button:hover {
+    transform: translateY(-0.125rem);
+  }
+
+  .contribution-card {
+    padding: 1rem;
+  }
+
+  .contribution-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .blueprint-board {
+    padding: 1.5rem;
+  }
+
+  .blueprint-track {
+    display: none;
+  }
+
+  .blueprint-nodes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .blueprint-nodes {
+    grid-template-columns: 1fr;
+  }
+
+  .blueprint-node {
+    min-height: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contribution-skeleton-title,
+  .contribution-skeleton-grid span {
+    animation: none;
+  }
+
+  .contribution-day {
+    transition: none;
+  }
+
+  .blueprint-detail {
+    animation: none;
+  }
+
+  .blueprint-square-grid span {
+    opacity: 0.08;
+    transform: none;
+  }
+}

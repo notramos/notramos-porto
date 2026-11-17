@@ -6,7 +6,7 @@ export function Contact() {
     <section id="contact" className="scroll-mt-24 py-20 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">03 / Kontak</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">06 / Kontak</p>
           <h2 className="max-w-2xl text-4xl font-semibold leading-tight tracking-[-0.045em] text-balance sm:text-6xl">
             Ada pekerjaan menarik? Mari berbicara.
           </h2>

@@ -9,7 +9,7 @@ export function About() {
     <section id="about" className="scroll-mt-24 border-y border-[var(--border)] bg-[var(--surface)] py-20 sm:py-24">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-[0.8fr_1.2fr]">
         <div>
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">02 / Tentang</p>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent)]">05 / Tentang</p>
           <h2 className="max-w-md text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-5xl">
             Dari kebutuhan pengguna sampai solusi teknis.
           </h2>
