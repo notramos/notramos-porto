@@ -51,14 +51,14 @@ function buildWeeks(contributions: Contribution[]): CalendarWeek[] {
 
   while (cursor <= calendarEnd) {
     const weekStart = new Date(cursor);
-    const days = Array.from({ length: 7 }, (_, dayIndex) => {
+    const days: CalendarDay[] = Array.from({ length: 7 }, (_, dayIndex) => {
       const date = new Date(weekStart);
       date.setUTCDate(date.getUTCDate() + dayIndex);
       const dateKey = toDateKey(date);
       return contributionMap.get(dateKey) ?? {
         date: dateKey,
         count: 0,
-        level: 0,
+        level: 0 as const,
         outsideRange: date < firstDate || date > lastDate,
       };
     });
