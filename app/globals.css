@@ -588,8 +588,31 @@ nav a[aria-current="location"] {
   padding: 2rem;
 }
 
+.blueprint-square-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-rows: repeat(7, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.blueprint-square-grid span {
+  border-right: 1px solid color-mix(in srgb, var(--border) 11%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 11%, transparent);
+  background: var(--primary);
+  opacity: calc(0.045 + var(--cell-energy) * 0.42);
+  transform: scale(calc(0.88 + var(--cell-energy) * 0.12));
+  transition:
+    opacity 240ms ease-out,
+    transform 320ms var(--motion-curve);
+  will-change: opacity, transform;
+}
+
 .blueprint-track {
   position: absolute;
+  z-index: 1;
   top: 6.25rem;
   right: 3.25rem;
   left: 3.25rem;
@@ -671,6 +694,7 @@ nav a[aria-current="location"] {
 
 .blueprint-detail-shell {
   position: relative;
+  z-index: 1;
   min-height: 10.5rem;
   margin-top: 2rem;
   overflow: hidden;
@@ -776,5 +800,10 @@ nav a[aria-current="location"] {
 
   .blueprint-detail {
     animation: none;
+  }
+
+  .blueprint-square-grid span {
+    opacity: 0.08;
+    transform: none;
   }
 }
