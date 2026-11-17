@@ -669,11 +669,54 @@ nav a[aria-current="location"] {
   font-weight: 600;
 }
 
-.blueprint-detail {
+.blueprint-detail-shell {
+  position: relative;
+  min-height: 10.5rem;
   margin-top: 2rem;
+  overflow: hidden;
   border-top: 1px solid var(--border);
+}
+
+.blueprint-detail {
   padding-top: 1.5rem;
   animation: blueprint-detail-enter 500ms var(--motion-curve);
+}
+
+/* A restrained pixel dissolve, inspired by React Bits, masks the content swap. */
+.blueprint-pixel-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  pointer-events: none;
+}
+
+.blueprint-pixel-transition span {
+  background: var(--accent);
+  opacity: 0;
+}
+
+.blueprint-pixel-transition[data-active="true"] span {
+  animation: blueprint-pixel-swap 520ms var(--motion-curve) both;
+  animation-delay: calc(var(--pixel-order) * 4ms);
+}
+
+@keyframes blueprint-pixel-swap {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  38%,
+  58% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
 }
 
 @keyframes skeleton-breathe {
