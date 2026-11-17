@@ -61,7 +61,7 @@ export function SystemBlueprint() {
 
       setIsTransitioning(true);
       swapTimer.current = setTimeout(() => setActiveLayer(nextLayer), 260);
-      finishTimer.current = setTimeout(() => setIsTransitioning(false), 620);
+      finishTimer.current = setTimeout(() => setIsTransitioning(false), 700);
     },
     [activeLayer.id, isTransitioning],
   );
