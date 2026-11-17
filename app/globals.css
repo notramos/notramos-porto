@@ -499,58 +499,181 @@ nav a[aria-current="location"] {
 }
 
 
-/* GitHub history uses a restrained commit timeline so real activity remains the focus. */
-.github-history-list {
-  border-top: 1px solid var(--border);
-}
-
-.github-history-row {
-  position: relative;
+/* GitHub history mirrors the familiar contribution calendar with real public data. */
+.contribution-layout {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) 1rem;
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) 7.5rem;
+  gap: 2rem;
   align-items: start;
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 35%, transparent);
-  padding-block: 1.5rem;
 }
 
-.github-history-index {
-  color: var(--accent);
+.contribution-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 1.5rem;
+}
+
+.contribution-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.contribution-profile-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted-foreground);
   font-size: 0.875rem;
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 0.3rem;
 }
 
-.github-history-mark {
-  width: 0.75rem;
-  height: 0.75rem;
-  margin-top: 0.35rem;
-  border: 1px solid var(--border);
-  background: var(--primary);
-  transform: rotate(45deg);
-  transition: transform 500ms var(--motion-curve);
+.contribution-scroll {
+  overflow-x: auto;
+  padding: 0.25rem 0 0.75rem;
+  scrollbar-color: var(--muted-foreground) transparent;
+  scrollbar-width: thin;
 }
 
-.github-history-row:hover .github-history-mark,
-.github-history-row:focus-within .github-history-mark {
-  transform: rotate(135deg) scale(1.15);
+.contribution-scroll:focus-visible {
+  outline-offset: 0.25rem;
 }
 
-.github-history-skeleton > span,
-.github-history-skeleton > div > span {
+.contribution-calendar {
+  width: max-content;
+  min-width: 100%;
+}
+
+.contribution-months {
+  display: grid;
+  width: max-content;
+  min-width: calc(var(--calendar-weeks) * 14px);
+  grid-template-columns: repeat(var(--calendar-weeks), 11px);
+  gap: 3px;
+  margin-left: 2.25rem;
+  margin-bottom: 0.45rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.contribution-months span {
+  min-width: 2rem;
+  white-space: nowrap;
+}
+
+.contribution-calendar-body {
+  display: flex;
+  width: max-content;
+  gap: 0.5rem;
+}
+
+.contribution-weekdays,
+.contribution-week {
+  display: grid;
+  grid-template-rows: repeat(7, 11px);
+  gap: 3px;
+}
+
+.contribution-weekdays {
+  width: 1.75rem;
+  flex: 0 0 1.75rem;
+  color: var(--muted-foreground);
+  font-size: 0.625rem;
+  line-height: 11px;
+  text-align: right;
+}
+
+.contribution-weeks {
+  display: flex;
+  gap: 3px;
+}
+
+.contribution-day {
   display: block;
-  height: 0.75rem;
-  background: var(--surface-muted);
-  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
+  width: 11px;
+  height: 11px;
+  border: 1px solid color-mix(in srgb, var(--border) 10%, transparent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--border) 8%, var(--surface-muted));
+  transition:
+    transform 180ms ease-out,
+    border-color 180ms ease-out;
 }
 
-.github-history-skeleton > div > span:first-child {
-  width: 45%;
-  height: 1.25rem;
+.contribution-day[data-level="1"] {
+  background: #9be9a8;
 }
 
-.github-history-skeleton > div > span:last-child {
-  width: 75%;
-  margin-top: 0.75rem;
+.contribution-day[data-level="2"] {
+  background: #40c463;
+}
+
+.contribution-day[data-level="3"] {
+  background: #30a14e;
+}
+
+.contribution-day[data-level="4"] {
+  background: #216e39;
+}
+
+.contribution-day[data-outside="true"] {
+  visibility: hidden;
+}
+
+.contribution-weeks .contribution-day:hover {
+  z-index: 1;
+  border-color: var(--foreground);
+  transform: scale(1.45);
+}
+
+.contribution-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+}
+
+.contribution-years {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.contribution-years button {
+  min-height: 44px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted-foreground);
+  padding: 0.65rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  transition:
+    transform 240ms var(--motion-curve),
+    color 180ms ease-out,
+    background-color 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+.contribution-years button:hover {
+  border-color: color-mix(in srgb, var(--border) 28%, transparent);
+  color: var(--foreground);
+  transform: translateX(0.2rem);
+}
+
+.contribution-years button[aria-pressed="true"] {
+  border-color: var(--border);
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .github-history-state {
@@ -559,24 +682,28 @@ nav a[aria-current="location"] {
   padding: 1.5rem;
 }
 
-.github-retry-button {
-  min-height: 44px;
-  border: 1px solid var(--border);
-  background: var(--primary);
-  color: var(--primary-foreground);
-  padding: 0.5rem 0.75rem;
-  font-weight: 600;
-  transition:
-    transform 300ms var(--motion-curve),
-    background-color 300ms var(--motion-curve);
+.contribution-skeleton-title {
+  display: block;
+  width: min(18rem, 70%);
+  height: 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--surface-muted);
+  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
 }
 
-.github-retry-button:hover {
-  transform: translateY(-0.125rem);
+.contribution-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(28, 11px);
+  gap: 3px;
+  overflow: hidden;
 }
 
-.github-retry-button:active {
-  transform: scale(0.98);
+.contribution-skeleton-grid span {
+  width: 11px;
+  height: 11px;
+  background: var(--surface-muted);
+  animation: skeleton-breathe 1.4s var(--motion-curve) infinite alternate;
+  animation-delay: calc((var(--skeleton-order, 0)) * 10ms);
 }
 
 /* Blueprint turns the full stack workflow into an interactive editorial schematic. */
@@ -760,13 +887,33 @@ nav a[aria-current="location"] {
 }
 
 @media (max-width: 767px) {
-  .github-history-row {
-    grid-template-columns: 2rem minmax(0, 1fr);
+  .contribution-layout {
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
 
-  .github-history-mark {
-    display: none;
+  .contribution-years {
+    grid-row: 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .contribution-years button {
+    padding-inline: 0.5rem;
+    text-align: center;
+  }
+
+  .contribution-years button:hover {
+    transform: translateY(-0.125rem);
+  }
+
+  .contribution-card {
+    padding: 1rem;
+  }
+
+  .contribution-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 1rem;
   }
 
   .blueprint-board {
@@ -793,9 +940,13 @@ nav a[aria-current="location"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .github-history-skeleton > span,
-  .github-history-skeleton > div > span {
+  .contribution-skeleton-title,
+  .contribution-skeleton-grid span {
     animation: none;
+  }
+
+  .contribution-day {
+    transition: none;
   }
 
   .blueprint-detail {
